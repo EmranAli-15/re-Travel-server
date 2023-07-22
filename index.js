@@ -23,11 +23,18 @@ async function run() {
         try {
                 // await client.connect();
                 // Code will be proceed here
+                const agencyCollection = client.db("Travel-Ticket").collection("agency");
 
                 app.post('/jwt', async (req, res) => {
                         const user = req.body;
                         const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
                         res.send({ token });
+                })
+
+                app.post('/createAgency', async (req, res) => {
+                        const user = req.body;
+                        const result = await agencyCollection.insertOne(user);
+                        res.send(result);
                 })
 
 
